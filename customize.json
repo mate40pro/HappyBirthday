@@ -1,7 +1,7 @@
 {
   "greeting": "好消息，好消息",
-  "name": " ",
-  "greetingText": "张雨晴小朋友",
+  "name": "\n\n张雨晴小朋友",
+  "greetingText": "",
   "wishText": "恭喜你离退休金又近了一步！祝你今年福如东海长流水，寿比南山老乌龟（划掉）老仙翁！",
   "imagePath": "img/lydia2.png",
   "text1": "今天是你的23大寿",

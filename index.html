@@ -5,17 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>生日快乐!!! :)</title>
+  <title>生日快乐，张雨晴</title>
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
 </head>
 
 <body>
-  <button id="playPauseButton" class="play-pause"></button>
+  <button id="playPauseButton" class="play-pause" type="button" aria-label="播放背景音乐" title="播放背景音乐"></button>
   <div class="startSign">
     <p class="two">温馨提醒：佩戴耳机并播放音乐可获得最佳体验哦😊</p>
     <!-- 开始按钮 -->
-    <p id="startButton" class="two button">准备好了，我们开始吧！</p>
+    <button id="startButton" class="two button" type="button">准备好了，我们开始吧！</button>
   </div>
 
   <div class="container">
@@ -53,8 +53,8 @@
       </p>
     </div>
     <div class="six">
-      <img src="img/jing.jpg" alt="" class="lydia-dp" data-node-name="imagePath">
-      <img src="img/hat.svg" alt="" class="hat">
+      <img src="img/jing.jpg" alt="生日主角照片" class="lydia-dp" data-node-name="imagePath">
+      <img src="img/hat.svg" alt="生日帽" class="hat">
       <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
         <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
@@ -131,7 +131,7 @@
       <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
       <p class="last-smile" data-node-name="outroSmiley">:)</p>
     </div>
-    <canvas id="fireworksCanvas"></canvas>
+    <canvas id="fireworksCanvas" aria-hidden="true"></canvas>
   </div>
 </body>
 

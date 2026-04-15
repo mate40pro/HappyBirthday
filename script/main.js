@@ -1,6 +1,17 @@
 let audioUrl = ""
 let audio = null
 let isPlaying = false
+let dataArr = []
+
+const startButton = document.getElementById("startButton")
+const playPauseButton = document.getElementById("playPauseButton")
+
+function updatePlayButtonState(play) {
+  const label = play ? "暂停背景音乐" : "播放背景音乐"
+  playPauseButton.classList.toggle("playing", play)
+  playPauseButton.setAttribute("aria-label", label)
+  playPauseButton.setAttribute("title", label)
+}
 
 // Import the data to customize and insert them into page
 const fetchData = () => {
@@ -8,39 +19,42 @@ const fetchData = () => {
     .then(data => data.json())
     .then(data => {
       dataArr = Object.keys(data)
-      dataArr.map(customData => {
+      dataArr.forEach(customData => {
         if (data[customData] !== "") {
           if (customData === "imagePath") {
-            document
-              .querySelector(`[data-node-name*="${customData}"]`)
-              .setAttribute("src", data[customData])
+            const imageNode = document.querySelector(`[data-node-name*="${customData}"]`)
+            if (imageNode) {
+              imageNode.setAttribute("src", data[customData])
+            }
           } else if (customData === "fonts") {
             data[customData].forEach(font => {
-              const link = document.createElement('link')
-              link.rel = 'stylesheet'
+              const link = document.createElement("link")
+              link.rel = "stylesheet"
               link.href = font.path
               document.head.appendChild(link)
-              //设置body字体
+              // Set the configured font family once the stylesheet is loaded.
               document.body.style.fontFamily = font.name
             })
           } else if (customData === "music") {
             audioUrl = data[customData]
             audio = new Audio(audioUrl)
             audio.preload = "auto"
+            audio.loop = true
           } else {
-            document.querySelector(`[data-node-name*="${customData}"]`).innerText = data[customData]
+            const textNode = document.querySelector(`[data-node-name*="${customData}"]`)
+            if (textNode) {
+              textNode.textContent = data[customData]
+            }
           }
         }
 
         // Check if the iteration is over
-        // Run amimation if so
+        // Run animation if so.
         if (dataArr.length === dataArr.indexOf(customData) + 1) {
-          document.querySelector("#startButton").addEventListener("click", () => {
+          startButton.addEventListener("click", () => {
             document.querySelector(".startSign").style.display = "none"
             animationTimeline()
-          }
-          )
-          // animationTimeline()
+          })
         }
       })
     })
@@ -54,11 +68,11 @@ const animationTimeline = () => {
 
   textBoxChars.innerHTML = `<span>${textBoxChars.innerHTML
     .split("")
-    .join("</span><span>")}</span`
+    .join("</span><span>")}</span>`
 
   hbd.innerHTML = `<span>${hbd.innerHTML
     .split("")
-    .join("</span><span>")}</span`
+    .join("</span><span>")}</span>`
 
   const ideaTextTrans = {
     opacity: 0,
@@ -328,15 +342,13 @@ const animationTimeline = () => {
 // Run fetch and animation in sequence
 fetchData()
 
-const playPauseButton = document.getElementById('playPauseButton')
-
-document.getElementById('startButton').addEventListener('click', () => {
+startButton.addEventListener("click", () => {
   if (audio) {
     togglePlay(true)
   }
 })
 
-playPauseButton.addEventListener('click', () => {
+playPauseButton.addEventListener("click", () => {
   if (audio) {
     togglePlay(!isPlaying)
   }
@@ -344,8 +356,18 @@ playPauseButton.addEventListener('click', () => {
 
 function togglePlay(play) {
   if (!audio) return
-  
+
   isPlaying = play
-  play ? audio.play() : audio.pause()
-  playPauseButton.classList.toggle('playing', play)
+  if (play) {
+    const playPromise = audio.play()
+    if (playPromise) {
+      playPromise.catch(() => {
+        isPlaying = false
+        updatePlayButtonState(false)
+      })
+    }
+  } else {
+    audio.pause()
+  }
+  updatePlayButtonState(play)
 }

@@ -139,6 +139,12 @@ canvas {
   height: auto;
 }
 
+.six .lydia-dp {
+  width: min(470px, 70vw);
+  max-width: 100%;
+  height: auto;
+}
+
 .six .hat {
   position: absolute;
   width: 80px;
